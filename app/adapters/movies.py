@@ -64,7 +64,7 @@ class Mock(Movies):
     base_url = None
 
     def get_all(self) -> List[Dict]:
-        time.sleep(2)  # Simulate some delay in order to test views caching
+        time.sleep(0.3)  # Simulate some delay in order to test views caching
         return [
             {
                 'id': '2baf70d1-42bb-4437-b551-e5fed5a87abe',
