@@ -1,3 +1,4 @@
+import time
 import urllib.parse
 from abc import ABC, abstractmethod
 from typing import Dict, List, ValuesView
@@ -9,7 +10,7 @@ class Movies(ABC):
     """ Base class for movies adapters
 
     This defines an interface for all movies adapters, so we can easily connect the app with new
-    movie studios.
+    movie studios or mock any external dependency during tests.
     """
 
     @property
@@ -57,3 +58,43 @@ class Ghibli(Movies):
     @staticmethod
     def _extract_movie_id(movie_url: str) -> str:
         return movie_url.split('/')[-1]
+
+
+class Mock(Movies):
+    base_url = None
+
+    def get_all(self) -> List[Dict]:
+        time.sleep(2)  # Simulate some delay in order to test views caching
+        return [
+            {
+                'id': '2baf70d1-42bb-4437-b551-e5fed5a87abe',
+                'title': 'Castle in the Sky',
+                'description': 'The orphan Sheeta inherited a mysterious crystal ...',
+                'director': 'Hayao Miyazaki',
+                'producer': 'Isao Takahata',
+                'release_date': '1986',
+                'rt_score': '95',
+                'characters': [
+                    {
+                        'id': '40c005ce-3725-4f15-8409-3e1b1b14b583',
+                        'name': 'Colonel Muska',
+                        'gender': 'Male',
+                        'age': '33',
+                        'eye_color': 'Grey',
+                        'hair_color': 'Brown'
+                    }
+                ]
+            }
+        ]
+
+
+class MoviesFactory:
+
+    @staticmethod
+    def get_adapter(studio: str) -> Movies:
+        if studio == 'ghibli':
+            return Ghibli()
+        elif studio == 'mock':
+            return Mock()
+        else:
+            raise NotImplementedError(f'Studio "{studio}" is not implemented!')
