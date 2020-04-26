@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+</head>
+<body>
+<h1>Studio Ghibli Movies</h1>
+<ul>
+    {% for movie in movies %}
+    <li style="padding-bottom: 20px">
+        <b>Title:</b> {{ movie.title }}<br>
+        <b>Description:</b> {{movie.description}}<br>
+        <b>Director:</b> {{movie.director}}<br>
+        <b>Producer:</b> {{movie.producer}}<br>
+        <b>Release Date:</b> {{movie.release_date}}<br>
+        <b>Rotten Tomatoes Score:</b> {{movie.rt_score}}<br>
+        <b>Characters:</b>
+        {% if movie.characters %}
+        <ul>
+            {% for char in movie.characters %}
+            <li style="padding-bottom: 5px">
+                <b>Name:</b> {{ char.name }}<br>
+                <b>Gender:</b> {{ char.gender }}<br>
+                <b>Age:</b> {{ char.age }}<br>
+                <b>Eye Color:</b> {{ char.eye_color }}<br>
+                <b>Hair Color:</b> {{ char.hair_color }}<br>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        NA
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
